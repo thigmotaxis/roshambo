@@ -43,10 +43,26 @@ function checkPlays(compPlay, humPlay) {
 // create a function that displays the result
 function showOutcome() {
   let outcome = checkPlays()
-  if (outcome === "win") {
-    console.log("congrats, you're a big winner")}
-  else if (outcome === "lose") {console.log("bummer, you're a big loser")}
-  else {console.log("well, I don't really know how to feel about this")}
+  if (outcome === "win") {return "win"}
+  else if (outcome === "lose") {return "lose"}
+  else {return "tie"}
 }
 
-showOutcome()
+playGame()
+
+// create a function called playGame that calls showOutcome 5 times and records results
+// declare score variables, and counter
+
+function playGame() {
+  let computerScore = 0;
+  let humanScore = 0;
+  for (let i = 0; i < 5; i++) {
+    let outcome = showOutcome()
+    if (outcome === "win") {humanScore ++}
+    if (outcome === "lose") {computerScore ++}
+  }
+  console.log(`You scored ${humanScore}. The computer scored ${computerScore}.`)
+  if (humanScore > computerScore) {console.log("You are a credit to your species")}
+  else if (humanScore < computerScore) {console.log("You've really let yourself down here")}
+  else {console.log("Well, I really don't know how to feel about this")}
+}

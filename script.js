@@ -21,48 +21,65 @@ function calcComputerPlay() {
   return play
 }
 
-// create a function that reads user input
-function getHumanPlay() {
-  let play = prompt("Enter rock, paper, or scissors")
-  return play
-}
-// create a function that cleans and compares user input to computerplay (i.e. plays a round)
-function checkPlays(compPlay, humPlay) {
-  humPlay = getHumanPlay().toLowerCase();
-  compPlay = calcComputerPlay();
-  console.log(humPlay)
-  console.log(compPlay)
-  if (humPlay === compPlay) {return "tie"}
-  else if (humPlay === "rock" && compPlay === "scissors") {return "win"}
-  else if (humPlay === "rock" && compPlay === "paper") {return "lose"}
-  else if (humPlay === "paper" && compPlay === "rock") {return "win"}
-  else if (humPlay === "paper" && compPlay === "scissors") {return "lose"}
-  else if (humPlay === "scissors" && compPlay === "paper") {return "win"}
-  else {return "lose"}
-}
-// create a function that displays the result
-function showOutcome() {
-  let outcome = checkPlays()
-  if (outcome === "win") {return "win"}
-  else if (outcome === "lose") {return "lose"}
-  else {return "tie"}
-}
 
-playGame()
+// create event listeners on buttons that pass r,p, or s into the playRound function as humPlay
+
+let computerScore = 0;
+let humanScore = 0;
+const btns = document.querySelectorAll("button")
+btns.forEach((btn) => {
+  btn.addEventListener("click", playRound);
+})
+// create divs to track scores
+const humScore = document.createElement("div");
+const scorebox = document.querySelector(".scores");
+scorebox.appendChild(humScore);
+humScore.textContent = "Human Score: 0"
+const compScore = document.createElement("div");
+scorebox.appendChild(compScore);
+compScore.textContent = "Computer Score: 0"
+
+// create a function that cleans and compares user input to computerplay (i.e. plays a round)
+function playRound(humPlay, compPlay) {
+  humPlay = event.target.id;
+  compPlay = calcComputerPlay();
+  if (humPlay === compPlay) {return "tie"}
+  else if (humPlay === "rock" && compPlay === "scissors") {humanScore ++}
+  else if (humPlay === "rock" && compPlay === "paper") {computerScore ++}
+  else if (humPlay === "paper" && compPlay === "rock") {humanScore ++}
+  else if (humPlay === "paper" && compPlay === "scissors") {computerScore ++}
+  else if (humPlay === "scissors" && compPlay === "paper") {humanScore ++}
+  else {computerScore ++}
+  humScore.textContent = `Human Score: ${humanScore}`
+  compScore.textContent = `Computer Score: ${computerScore}`
+  if ((humanScore === 5) || (computerScore === 5)) {
+    endGame(humanScore, computerScore)
+  }
+};
+
+function endGame(hScore, cScore) {
+  if (hScore === 5) {alert("You are a credit to your species")}
+  if (cScore === 5) {alert("You've really let yourself down here")}
+  humanScore = 0;
+  computerScore = 0;
+  // humScore.textContent = "Human Score: 0";
+  // compScore.textContent = "Computer Score: 0";
+}
 
 // create a function called playGame that calls showOutcome 5 times and records results
 // declare score variables, and counter
-
-function playGame() {
-  let computerScore = 0;
-  let humanScore = 0;
-  for (let i = 0; i < 5; i++) {
-    let outcome = showOutcome()
-    if (outcome === "win") {humanScore ++}
-    if (outcome === "lose") {computerScore ++}
-  }
-  console.log(`You scored ${humanScore}. The computer scored ${computerScore}.`)
-  if (humanScore > computerScore) {console.log("You are a credit to your species")}
-  else if (humanScore < computerScore) {console.log("You've really let yourself down here")}
-  else {console.log("Well, I really don't know how to feel about this")}
-}
+// playGame()
+//
+// function playGame() {
+//   let computerScore = 0;
+//   let humanScore = 0;
+//   for (let i = 0; i < 5; i++) {
+//     let outcome = showOutcome()
+//     if (outcome === "win") {humanScore ++}
+//     if (outcome === "lose") {computerScore ++}
+//   }
+//   console.log(`You scored ${humanScore}. The computer scored ${computerScore}.`)
+//   if (humanScore > computerScore) {console.log("You are a credit to your species")}
+//   else if (humanScore < computerScore) {console.log("You've really let yourself down here")}
+//   else {console.log("Well, I really don't know how to feel about this")}
+// }
